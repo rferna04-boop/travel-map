@@ -3,40 +3,244 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://pub-fc0bf7fe0db244c695384fd77eeac1ca.r2.dev data:;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' https://pub-fc0bf7fe0db244c695384fd77eeac1ca.r2.dev data:; media-src 'self' blob: data: https:;" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>Travel Memories</title>
+  <title>Azores, Portugal — Travel Visual Journal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Cinzel', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            azores: {
+              sand: '#E6DFD5',
+              earth: '#A3998E',
+              moss: '#2D3E35',
+              deep: '#0F1210',
+              accent: '#C5A880'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
   <style>
-    .lightbox { display: none; }
-    .lightbox.active { display: flex; }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0c0a09; }
+    ::-webkit-scrollbar-thumb { background: #292524; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #44403c; }
+
+    /* Dialog backdrop */
+    dialog::backdrop {
+      background: rgba(4, 4, 4, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    
+    /* Equalizer bar animation */
+    @keyframes eqWave {
+      0%, 100% { height: 4px; }
+      50% { height: 18px; }
+    }
+    .eq-bar {
+      animation: eqWave 1.2s ease-in-out infinite;
+    }
+    .eq-bar:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bar:nth-child(3) { animation-delay: 0.4s; }
+    .eq-bar:nth-child(4) { animation-delay: 0.15s; }
+
+    /* Transitions */
+    .fade-cross {
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
-<body class="bg-stone-950 text-stone-100 min-h-screen p-4 sm:p-8 font-sans selection:bg-stone-800">
+<body class="bg-[#0b0d0c] text-stone-200 min-h-screen font-sans selection:bg-amber-900/50 selection:text-amber-100 antialiased">
 
-  <!-- Header -->
-  <header class="max-w-6xl mx-auto py-8 text-center">
-    <h1 id="trip-title" class="text-3xl font-light tracking-widest uppercase text-stone-200">
+  <!-- Top Announcement / Navigation Bar -->
+  <nav class="border-b border-stone-800/80 bg-stone-950/80 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20"></span>
+        <span class="font-serif tracking-widest text-xs uppercase text-stone-400">Expedition Archive</span>
+        <span class="text-stone-700">•</span>
+        <span class="text-xs text-stone-400 hidden sm:inline">37°44′N 25°40′W</span>
+      </div>
+
+      <!-- Quick Interactive Action Bar -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Audio Ambient Player -->
+        <button id="music-toggle-btn" class="flex items-center space-x-2 text-xs uppercase tracking-wider py-1.5 px-3 rounded-full border border-stone-700/80 hover:border-amber-400/60 bg-stone-900/70 hover:bg-stone-800 text-stone-300 transition duration-200" title="Toggle Atlantic Ocean & Ambient Soundtrack">
+          <div id="eq-icon" class="flex items-end space-x-0.5 h-4 w-4">
+            <span class="w-0.5 bg-amber-400/80 rounded-full h-1"></span>
+            <span class="w-0.5 bg-amber-400/80 rounded-full h-2"></span>
+            <span class="w-0.5 bg-amber-400/80 rounded-full h-1"></span>
+          </div>
+          <span id="music-status-text">Soundtrack</span>
+        </button>
+
+        <!-- Slideshow Trigger -->
+        <button id="header-slideshow-btn" class="flex items-center space-x-1.5 text-xs uppercase tracking-wider py-1.5 px-3.5 rounded-full bg-stone-100 text-stone-950 font-medium hover:bg-amber-200 transition duration-200 shadow-md">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <span>Slideshow</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Editorial Blog Hero Header -->
+  <header class="relative max-w-5xl mx-auto px-4 pt-16 pb-12 sm:pt-24 sm:pb-16 text-center">
+    <!-- Travel Badge -->
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-800 bg-stone-900/60 text-[11px] font-medium tracking-widest uppercase text-amber-300/90 mb-6">
+      <span>Portugal</span>
+      <span class="text-stone-600">/</span>
+      <span>Autonomous Region</span>
+      <span class="text-stone-600">/</span>
+      <span>Mid-Atlantic</span>
+    </div>
+
+    <!-- Editorial Title -->
+    <h1 id="trip-title" class="font-serif text-4xl sm:text-6xl md:text-7xl font-light tracking-tight text-stone-100 mb-6">
       Azores, Portugal
     </h1>
-    <p id="trip-count" class="text-stone-500 text-xs tracking-wider uppercase mt-2">
-      Tap any photo to view full screen
+
+    <!-- Story Prologue / Journal Excerpt -->
+    <p class="max-w-2xl mx-auto text-base sm:text-lg text-stone-400 leading-relaxed font-light mb-8 italic">
+      "Nine isolated emerald gems anchored amid the deep Atlantic swell. Here, volcanic steam rises from hydrangeas, calderas cradle twin-colored lakes, and steep basalt cliffs fall into restless oceanic tides."
     </p>
+
+    <!-- Trip Snapshot Badges -->
+    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs text-stone-400 border-y border-stone-800/80 py-4 max-w-3xl mx-auto">
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span>São Miguel & Archipelagic Lands</span>
+      </div>
+      <span class="text-stone-700 hidden sm:inline">•</span>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <span id="trip-count">81 Curated Photographs</span>
+      </div>
+      <span class="text-stone-700 hidden sm:inline">•</span>
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Interactive Lightbox & Slideshow</span>
+      </div>
+    </div>
   </header>
 
-  <!-- Gallery Grid -->
-  <main class="max-w-6xl mx-auto">
-    <div id="gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-      <!-- Photos injected via script -->
+  <!-- Gallery Control Strip -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="text-xs uppercase tracking-widest text-stone-500 font-medium">
+      Visual Chronicle <span class="text-stone-700 ml-1">/</span> <span class="text-stone-400">Click any image to enter reader mode</span>
+    </div>
+
+    <!-- Quick shortcuts hint -->
+    <div class="hidden md:flex items-center space-x-3 text-[11px] text-stone-500">
+      <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-800 text-stone-300">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-800 text-stone-300">→</kbd> Navigate</span>
+      <span>•</span>
+      <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-800 text-stone-300">Space</kbd> Slideshow</span>
+      <span>•</span>
+      <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-800 text-stone-300">M</kbd> Music</span>
+    </div>
+  </section>
+
+  <!-- Editorial Visual Gallery Grid -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-24">
+    <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+      <!-- Photos populated via JS -->
     </div>
   </main>
 
-  <!-- Fullscreen Lightbox -->
-  <div id="lightbox" class="lightbox fixed inset-0 bg-black/95 z-50 items-center justify-center p-4 backdrop-blur-sm" onclick="closeLightbox(event)">
-    <button class="absolute top-5 right-6 text-stone-400 hover:text-white text-4xl font-light transition" onclick="closeLightbox(event)">&times;</button>
-    <img id="lightbox-img" src="" alt="Enlarged view" class="max-h-[90vh] max-w-[92vw] object-contain rounded shadow-2xl transition-transform duration-200" />
-  </div>
+  <!-- Footer / Colophon -->
+  <footer class="border-t border-stone-900 bg-stone-950 py-12 text-center text-xs text-stone-600">
+    <p class="font-serif tracking-widest uppercase text-stone-400 mb-2">The Azores Chronicles</p>
+    <p>Captured across São Miguel and the Azores Autonomous Region.</p>
+  </footer>
 
+  <!-- Lightbox Modal (<dialog> with native support and fallback) -->
+  <dialog id="lightbox-dialog" closedby="any" class="m-0 p-0 max-w-none max-h-none w-screen h-screen bg-transparent border-0 outline-none text-stone-100 z-50">
+    <div class="relative w-full h-full flex flex-col justify-between p-3 sm:p-6 select-none bg-stone-950/95 backdrop-blur-xl">
+
+      <!-- Lightbox Header Controls -->
+      <div class="flex items-center justify-between z-20 pb-2">
+        <!-- Photo Index & Info -->
+        <div class="flex items-center space-x-3">
+          <span id="lb-counter" class="text-xs font-mono tracking-wider px-2.5 py-1 rounded-md bg-stone-900 border border-stone-800 text-amber-300">
+            01 / 81
+          </span>
+          <span id="lb-filename" class="text-xs text-stone-400 truncate max-w-[180px] sm:max-w-xs font-mono">
+            DSCF1928.jpg
+          </span>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="flex items-center space-x-2">
+          <!-- Slideshow toggle in Lightbox -->
+          <button id="lb-slideshow-btn" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-800 text-xs tracking-wider uppercase text-stone-300 hover:text-white transition" title="Toggle Auto Slideshow (Spacebar)">
+            <svg id="lb-slideshow-icon" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <span id="lb-slideshow-text">Slideshow</span>
+          </button>
+
+          <!-- Fullscreen toggle -->
+          <button id="lb-fullscreen-btn" class="p-2 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-400 hover:text-white transition" title="Toggle Fullscreen (F)">
+            <svg class="w-4 h-4 stroke-current fill-none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+          </button>
+
+          <!-- Close button -->
+          <button id="lb-close-btn" class="p-2 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-400 hover:text-white transition" title="Close Lightbox (Esc)">
+            <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Slideshow progress bar -->
+      <div id="slideshow-progress-container" class="w-full h-0.5 bg-stone-900 my-1 rounded-full overflow-hidden opacity-0 transition-opacity duration-300">
+        <div id="slideshow-progress-bar" class="h-full bg-amber-400 w-0 transition-[width] ease-linear"></div>
+      </div>
+
+      <!-- Center Viewer Area with Next / Prev buttons -->
+      <div class="relative flex-1 flex items-center justify-center min-h-0 my-auto overflow-hidden">
+        <!-- Previous Button -->
+        <button id="lb-prev-btn" aria-label="Previous photo" class="absolute left-1 sm:left-4 z-20 p-3 rounded-full bg-black/60 hover:bg-black/90 border border-stone-800 text-stone-300 hover:text-white transition-all transform hover:scale-110 active:scale-95 shadow-xl backdrop-blur-md">
+          <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+
+        <!-- Main Enlarged Photo -->
+        <div class="relative flex items-center justify-center w-full h-full p-2">
+          <img id="lightbox-img" src="" alt="Enlarged visual" class="fade-cross max-h-[80vh] sm:max-h-[84vh] max-w-[94vw] object-contain rounded-md shadow-2xl transition duration-300" />
+        </div>
+
+        <!-- Next Button -->
+        <button id="lb-next-btn" aria-label="Next photo" class="absolute right-1 sm:right-4 z-20 p-3 rounded-full bg-black/60 hover:bg-black/90 border border-stone-800 text-stone-300 hover:text-white transition-all transform hover:scale-110 active:scale-95 shadow-xl backdrop-blur-md">
+          <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <!-- Lightbox Bottom Caption Strip -->
+      <div class="text-center pt-2 z-20">
+        <p class="text-xs font-serif tracking-widest uppercase text-stone-400">Azores Archive • Autonomous Region of Portugal</p>
+        <p class="text-[11px] text-stone-600 mt-0.5">Use Arrow Keys ← → to navigate • Swipe on mobile</p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Optional Custom Audio Element (can be configured with your own file/stream) -->
+  <audio id="custom-audio" preload="none" loop></audio>
+
+  <!-- Application Logic -->
   <script>
     const R2_BUCKET_URL = "https://pub-fc0bf7fe0db244c695384fd77eeac1ca.r2.dev";
 
@@ -136,56 +340,438 @@
 
     const photos = tripRegistry[tripSlug] || [];
     const galleryEl = document.getElementById('gallery');
-    document.getElementById('trip-count').textContent = `${photos.length} photos • Tap to expand`;
+    document.getElementById('trip-count').textContent = `${photos.length} Curated Photographs`;
 
-    photos.forEach((fileName) => {
+    // State
+    let currentIndex = 0;
+    let isSlideshowActive = false;
+    let slideshowTimer = null;
+    const SLIDESHOW_INTERVAL_MS = 3800;
+
+    // Build Gallery with Modern Web Guidance image optimization
+    photos.forEach((fileName, index) => {
       const fullUrl = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(fileName)}`;
       
       const card = document.createElement('div');
-      card.className = "aspect-square overflow-hidden rounded-lg bg-stone-900 border border-stone-800/80 cursor-pointer shadow hover:border-stone-600 transition focus:outline-none focus:ring-2 focus:ring-stone-400";
+      card.className = "group relative aspect-square sm:aspect-[4/3] overflow-hidden rounded-xl bg-stone-900 border border-stone-800/80 cursor-pointer shadow-lg hover:border-amber-400/50 hover:shadow-amber-950/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-400";
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', `View ${fileName}`);
+      card.setAttribute('aria-label', `View photo ${index + 1} of ${photos.length}: ${fileName}`);
 
       const img = document.createElement('img');
       img.src = fullUrl;
-      img.alt = fileName;
-      img.className = "w-full h-full object-cover transition duration-300 hover:scale-105";
-      img.loading = "lazy";
+      img.alt = `Azores photo ${fileName}`;
+      img.className = "w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-108";
+      
+      // Optimization: Elevate priority on hero candidate, lazy load remaining
+      if (index === 0) {
+        img.setAttribute('fetchpriority', 'high');
+      } else {
+        img.loading = "lazy";
+      }
+
+      // Vignette Overlay + Photo Number Badge
+      const overlay = document.createElement('div');
+      overlay.className = "absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3";
+      
+      const badge = document.createElement('span');
+      badge.className = "text-[11px] font-mono tracking-wider text-amber-200/90 bg-stone-950/80 backdrop-blur-sm px-2 py-0.5 rounded border border-stone-800";
+      badge.textContent = `#${index + 1}`;
+      overlay.appendChild(badge);
 
       card.appendChild(img);
-      card.addEventListener('click', () => openLightbox(fullUrl, fileName));
+      card.appendChild(overlay);
+
+      card.addEventListener('click', () => openLightbox(index));
       card.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          openLightbox(fullUrl, fileName);
+          openLightbox(index);
         }
       });
       
       galleryEl.appendChild(card);
     });
 
-    function openLightbox(url, title = 'Enlarged view') {
-      const lightboxImg = document.getElementById('lightbox-img');
-      lightboxImg.src = url;
-      lightboxImg.alt = title;
-      document.getElementById('lightbox').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
+    // Modal Dialog Lightbox Element
+    const lightboxDialog = document.getElementById('lightbox-dialog');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lbCounter = document.getElementById('lb-counter');
+    const lbFilename = document.getElementById('lb-filename');
+    const lbSlideshowBtn = document.getElementById('lb-slideshow-btn');
+    const lbSlideshowText = document.getElementById('lb-slideshow-text');
+    const lbSlideshowIcon = document.getElementById('lb-slideshow-icon');
+    const progressBar = document.getElementById('slideshow-progress-bar');
+    const progressContainer = document.getElementById('slideshow-progress-container');
 
-    function closeLightbox(e) {
-      if (e.target.id === 'lightbox' || e.target.tagName === 'BUTTON') {
-        document.getElementById('lightbox').classList.remove('active');
-        document.body.style.overflow = 'auto';
+    function openLightbox(index) {
+      currentIndex = (index + photos.length) % photos.length;
+      updateLightboxDisplay();
+      
+      if (!lightboxDialog.open) {
+        lightboxDialog.showModal();
+        document.body.style.overflow = 'hidden';
       }
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        document.getElementById('lightbox').classList.remove('active');
-        document.body.style.overflow = 'auto';
+    function closeLightbox() {
+      stopSlideshow();
+      if (lightboxDialog.open) {
+        lightboxDialog.close();
+      }
+      document.body.style.overflow = 'auto';
+    }
+
+    function updateLightboxDisplay() {
+      const fileName = photos[currentIndex];
+      const fullUrl = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(fileName)}`;
+
+      lightboxImg.style.opacity = '0.3';
+      lightboxImg.src = fullUrl;
+      lightboxImg.alt = `Azores photo ${fileName}`;
+      
+      lightboxImg.onload = () => {
+        lightboxImg.style.opacity = '1';
+      };
+
+      lbCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
+      lbFilename.textContent = fileName;
+
+      // Preload next image for instant snappy browsing
+      const nextIndex = (currentIndex + 1) % photos.length;
+      const nextPreload = new Image();
+      nextPreload.src = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(photos[nextIndex])}`;
+    }
+
+    function showNextPhoto() {
+      currentIndex = (currentIndex + 1) % photos.length;
+      updateLightboxDisplay();
+      if (isSlideshowActive) resetSlideshowTimer();
+    }
+
+    function showPrevPhoto() {
+      currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+      updateLightboxDisplay();
+      if (isSlideshowActive) resetSlideshowTimer();
+    }
+
+    // Slideshow Logic
+    function startSlideshow() {
+      isSlideshowActive = true;
+      lbSlideshowText.textContent = "Pause";
+      lbSlideshowIcon.innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
+      progressContainer.classList.remove('opacity-0');
+      resetSlideshowTimer();
+    }
+
+    function stopSlideshow() {
+      isSlideshowActive = false;
+      if (slideshowTimer) clearInterval(slideshowTimer);
+      slideshowTimer = null;
+      lbSlideshowText.textContent = "Slideshow";
+      lbSlideshowIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
+      progressContainer.classList.add('opacity-0');
+      progressBar.style.width = '0%';
+      progressBar.style.transition = 'none';
+    }
+
+    function toggleSlideshow() {
+      if (isSlideshowActive) {
+        stopSlideshow();
+      } else {
+        if (!lightboxDialog.open) {
+          openLightbox(currentIndex);
+        }
+        startSlideshow();
+      }
+    }
+
+    function resetSlideshowTimer() {
+      if (slideshowTimer) clearInterval(slideshowTimer);
+      
+      progressBar.style.transition = 'none';
+      progressBar.style.width = '0%';
+      // Force reflow
+      void progressBar.offsetWidth;
+      progressBar.style.transition = `width ${SLIDESHOW_INTERVAL_MS}ms linear`;
+      progressBar.style.width = '100%';
+
+      slideshowTimer = setTimeout(() => {
+        showNextPhoto();
+      }, SLIDESHOW_INTERVAL_MS);
+    }
+
+    // Buttons
+    document.getElementById('lb-next-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      showNextPhoto();
+    });
+
+    document.getElementById('lb-prev-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      showPrevPhoto();
+    });
+
+    document.getElementById('lb-close-btn').addEventListener('click', closeLightbox);
+    document.getElementById('header-slideshow-btn').addEventListener('click', () => {
+      openLightbox(0);
+      startSlideshow();
+    });
+    lbSlideshowBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleSlideshow();
+    });
+
+    // Fullscreen Toggle
+    document.getElementById('lb-fullscreen-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
       }
     });
+
+    // Modern Web Guidance fallback for light-dismiss on browsers without closedby support
+    if (!('closedBy' in HTMLDialogElement.prototype)) {
+      lightboxDialog.addEventListener('click', (event) => {
+        if (event.target !== lightboxDialog) return;
+        const rect = lightboxDialog.getBoundingClientRect();
+        const isDialogContent = (
+          rect.top <= event.clientY &&
+          event.clientY <= rect.top + rect.height &&
+          rect.left <= event.clientX &&
+          event.clientX <= rect.left + rect.width
+        );
+        if (isDialogContent) return;
+        closeLightbox();
+      });
+    }
+
+    lightboxDialog.addEventListener('close', () => {
+      closeLightbox();
+    });
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (lightboxDialog.open) {
+        if (e.key === 'ArrowRight') {
+          showNextPhoto();
+        } else if (e.key === 'ArrowLeft') {
+          showPrevPhoto();
+        } else if (e.key === ' ') {
+          e.preventDefault();
+          toggleSlideshow();
+        } else if (e.key === 'f' || e.key === 'F') {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            document.exitFullscreen().catch(() => {});
+          }
+        }
+      }
+      
+      // Toggle Music anytime with 'M' key
+      if (e.key === 'm' || e.key === 'M') {
+        toggleMusic();
+      }
+    });
+
+    // Touch Swipe Gestures for Mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    lightboxDialog.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    lightboxDialog.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const threshold = 40;
+      if (touchEndX < touchStartX - threshold) {
+        showNextPhoto();
+      } else if (touchEndX > touchStartX + threshold) {
+        showPrevPhoto();
+      }
+    }
+
+    // ==========================================
+    // Ambient Atlantic Soundscape & Music Player
+    // ==========================================
+    // Generates a rich, calming oceanic guitar ambient tone using Web Audio API
+    // so music works everywhere with zero dependencies or external audio files!
+    // Also allows attaching any custom MP3/stream URL if desired.
+    class TravelSoundscape {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.masterGain = null;
+        this.oscillators = [];
+        this.waveInterval = null;
+      }
+
+      init() {
+        if (this.ctx) return;
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new AudioCtx();
+
+        this.masterGain = this.ctx.createGain();
+        this.masterGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
+        this.masterGain.connect(this.ctx.destination);
+      }
+
+      start() {
+        this.init();
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+
+        // Smooth fade-in
+        this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
+        this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
+        this.masterGain.gain.linearRampToValueAtTime(0.18, this.ctx.currentTime + 3);
+
+        // Warm harmonic chord (Fado / Atlantic Portuguese modal frequencies: D minor / F major pentatonic)
+        const freqs = [146.83, 220.00, 261.63, 329.63, 440.00]; // D3, A3, C4, E4, A4
+        this.oscillators = freqs.map((f, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const filter = this.ctx.createBiquadFilter();
+
+          osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(f, this.ctx.currentTime);
+
+          // Gentle pitch wobble (subtle ocean drift)
+          const lfo = this.ctx.createOscillator();
+          const lfoGain = this.ctx.createGain();
+          lfo.frequency.setValueAtTime(0.15 + i * 0.05, this.ctx.currentTime);
+          lfoGain.gain.setValueAtTime(1.5, this.ctx.currentTime);
+          lfo.connect(osc.frequency);
+          lfo.start();
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(800 + i * 150, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(0.08 / freqs.length, this.ctx.currentTime);
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.masterGain);
+
+          osc.start();
+          return { osc, lfo };
+        });
+
+        // Oceanic gentle wave noise generator
+        this.createOceanWaves();
+        this.isPlaying = true;
+      }
+
+      createOceanWaves() {
+        const bufferSize = this.ctx.sampleRate * 2;
+        const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+
+        const whiteNoise = this.ctx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(250, this.ctx.currentTime);
+
+        const waveGain = this.ctx.createGain();
+        waveGain.gain.setValueAtTime(0.04, this.ctx.currentTime);
+
+        whiteNoise.connect(filter);
+        filter.connect(waveGain);
+        waveGain.connect(this.masterGain);
+
+        whiteNoise.start();
+        this.noiseNode = whiteNoise;
+
+        // Wave breathing modulation
+        const waveLfo = this.ctx.createOscillator();
+        const waveLfoGain = this.ctx.createGain();
+        waveLfo.frequency.setValueAtTime(0.12, this.ctx.currentTime); // ~8 sec ocean swell
+        waveLfoGain.gain.setValueAtTime(180, this.ctx.currentTime);
+        waveLfo.connect(filter.frequency);
+        waveLfo.start();
+        this.waveLfo = waveLfo;
+      }
+
+      stop() {
+        if (!this.isPlaying || !this.ctx) return;
+        this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
+        this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
+        this.masterGain.gain.linearRampToValueAtTime(0.0001, this.ctx.currentTime + 1.5);
+        setTimeout(() => {
+          this.oscillators.forEach(o => {
+            try { o.osc.stop(); o.lfo.stop(); } catch(e) {}
+          });
+          try { if (this.noiseNode) this.noiseNode.stop(); } catch(e) {}
+          try { if (this.waveLfo) this.waveLfo.stop(); } catch(e) {}
+          this.oscillators = [];
+          this.isPlaying = false;
+        }, 1600);
+      }
+    }
+
+    const soundscape = new TravelSoundscape();
+    const musicBtn = document.getElementById('music-toggle-btn');
+    const musicStatusText = document.getElementById('music-status-text');
+    const eqBars = document.querySelectorAll('#eq-icon span');
+
+    function toggleMusic() {
+      // If user configured a custom audio file in <audio id="custom-audio"> with src
+      const customAudio = document.getElementById('custom-audio');
+      if (customAudio && customAudio.src && customAudio.src !== window.location.href) {
+        if (customAudio.paused) {
+          customAudio.play();
+          setMusicUIActive(true);
+        } else {
+          customAudio.pause();
+          setMusicUIActive(false);
+        }
+        return;
+      }
+
+      // Default ambient soundscape
+      if (!soundscape.isPlaying) {
+        soundscape.start();
+        setMusicUIActive(true);
+      } else {
+        soundscape.stop();
+        setMusicUIActive(false);
+      }
+    }
+
+    function setMusicUIActive(active) {
+      if (active) {
+        musicStatusText.textContent = "Music: On";
+        musicBtn.classList.add('border-amber-400', 'text-amber-300', 'bg-amber-950/30');
+        eqBars.forEach((bar, idx) => {
+          bar.classList.add('eq-bar');
+          bar.style.height = `${(idx % 2 === 0 ? 12 : 16)}px`;
+        });
+      } else {
+        musicStatusText.textContent = "Soundtrack";
+        musicBtn.classList.remove('border-amber-400', 'text-amber-300', 'bg-amber-950/30');
+        eqBars.forEach((bar, idx) => {
+          bar.classList.remove('eq-bar');
+          bar.style.height = `${(idx % 2 === 0 ? 4 : 8)}px`;
+        });
+      }
+    }
+
+    musicBtn.addEventListener('click', toggleMusic);
   </script>
 </body>
 </html>
