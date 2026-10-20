@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://pub-fc0bf7fe0db244c695384fd77eeac1ca.r2.dev data:;" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Travel Memories</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -43,7 +45,7 @@
     const tripSlug = urlParams.get('trip') || 'Azores PT';
 
     // Format title
-    document.getElementById('trip-title').innerText = decodeURIComponent(tripSlug);
+    document.getElementById('trip-title').textContent = decodeURIComponent(tripSlug);
 
     // Trip photo registry
     const tripRegistry = {
@@ -134,21 +136,39 @@
 
     const photos = tripRegistry[tripSlug] || [];
     const galleryEl = document.getElementById('gallery');
-    document.getElementById('trip-count').innerText = `${photos.length} photos • Tap to expand`;
+    document.getElementById('trip-count').textContent = `${photos.length} photos • Tap to expand`;
 
     photos.forEach((fileName) => {
       const fullUrl = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(fileName)}`;
       
       const card = document.createElement('div');
-      card.className = "aspect-square overflow-hidden rounded-lg bg-stone-900 border border-stone-800/80 cursor-pointer shadow hover:border-stone-600 transition";
-      card.innerHTML = `<img src="${fullUrl}" alt="${fileName}" class="w-full h-full object-cover transition duration-300 hover:scale-105" loading="lazy" />`;
-      card.onclick = () => openLightbox(fullUrl);
+      card.className = "aspect-square overflow-hidden rounded-lg bg-stone-900 border border-stone-800/80 cursor-pointer shadow hover:border-stone-600 transition focus:outline-none focus:ring-2 focus:ring-stone-400";
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `View ${fileName}`);
+
+      const img = document.createElement('img');
+      img.src = fullUrl;
+      img.alt = fileName;
+      img.className = "w-full h-full object-cover transition duration-300 hover:scale-105";
+      img.loading = "lazy";
+
+      card.appendChild(img);
+      card.addEventListener('click', () => openLightbox(fullUrl, fileName));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(fullUrl, fileName);
+        }
+      });
       
       galleryEl.appendChild(card);
     });
 
-    function openLightbox(url) {
-      document.getElementById('lightbox-img').src = url;
+    function openLightbox(url, title = 'Enlarged view') {
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = url;
+      lightboxImg.alt = title;
       document.getElementById('lightbox').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
