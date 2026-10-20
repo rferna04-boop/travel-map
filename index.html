@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Memories</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .lightbox { display: none; }
+    .lightbox.active { display: flex; }
+  </style>
+</head>
+<body class="bg-stone-950 text-stone-100 min-h-screen p-4 sm:p-8 font-sans selection:bg-stone-800">
+
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto py-8 text-center">
+    <h1 id="trip-title" class="text-3xl font-light tracking-widest uppercase text-stone-200">
+      Azores, Portugal
+    </h1>
+    <p id="trip-count" class="text-stone-500 text-xs tracking-wider uppercase mt-2">
+      Tap any photo to view full screen
+    </p>
+  </header>
+
+  <!-- Gallery Grid -->
+  <main class="max-w-6xl mx-auto">
+    <div id="gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+      <!-- Photos injected via script -->
+    </div>
+  </main>
+
+  <!-- Fullscreen Lightbox -->
+  <div id="lightbox" class="lightbox fixed inset-0 bg-black/95 z-50 items-center justify-center p-4 backdrop-blur-sm" onclick="closeLightbox(event)">
+    <button class="absolute top-5 right-6 text-stone-400 hover:text-white text-4xl font-light transition" onclick="closeLightbox(event)">&times;</button>
+    <img id="lightbox-img" src="" alt="Enlarged view" class="max-h-[90vh] max-w-[92vw] object-contain rounded shadow-2xl transition-transform duration-200" />
+  </div>
+
+  <script>
+    const R2_BUCKET_URL = "https://pub-fc0bf7fe0db244c695384fd77eeac1ca.r2.dev";
+
+    // Read trip from ?trip= param, default to Azores PT
+    const urlParams = new URLSearchParams(window.location.search);
+    const tripSlug = urlParams.get('trip') || 'Azores PT';
+
+    // Format title
+    document.getElementById('trip-title').innerText = decodeURIComponent(tripSlug);
+
+    // Trip photo registry
+    const tripRegistry = {
+      "Azores PT": [
+        "1-DSCF1928.jpg", "10-DSCF1967.jpg", "11-DSCF1970.jpg", "12-DSCF1972.jpg",
+        "13-DSCF1985.jpg", "14-DSCF1991.jpg", "15-DSCF1996.jpg", "16-DSCF1997.jpg",
+        "17-DSCF1999.jpg", "18-DSCF2001.jpg", "19-DSCF2002.jpg", "2-DSCF1929.jpg",
+        "20-DSCF2007.jpg", "21-DSCF2008.jpg", "22-DSCF2009.jpg", "23-DSCF2012.jpg"
+      ]
+    };
+
+    const photos = tripRegistry[tripSlug] || [];
+    const galleryEl = document.getElementById('gallery');
+    document.getElementById('trip-count').innerText = `${photos.length} photos • Tap to expand`;
+
+    photos.forEach((fileName) => {
+      const fullUrl = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(fileName)}`;
+      
+      const card = document.createElement('div');
+      card.className = "aspect-square overflow-hidden rounded-lg bg-stone-900 border border-stone-800/80 cursor-pointer shadow hover:border-stone-600 transition";
+      card.innerHTML = `<img src="${fullUrl}" alt="${fileName}" class="w-full h-full object-cover transition duration-300 hover:scale-105" loading="lazy" />`;
+      card.onclick = () => openLightbox(fullUrl);
+      
+      galleryEl.appendChild(card);
+    });
+
+    function openLightbox(url) {
+      document.getElementById('lightbox-img').src = url;
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e.target.id === 'lightbox' || e.target.tagName === 'BUTTON') {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    });
+  </script>
+</body>
+</html>
