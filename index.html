@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' https://pub-fc0bf7fe0db244c695384fd77eeac1ca.r2.dev data: blob:; media-src 'self' blob: data: https:;" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>FERNANDES — Azores Editorial Photography Portfolio</title>
+  <title>Travel Photography — Visual Journal</title>
   
-  <!-- Plus Jakarta Sans Font -->
+  <!-- Typography Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,386 +19,199 @@
       theme: {
         extend: {
           fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
             sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              black: '#111111',
-              dark: '#1a1a1a',
-              muted: '#737373',
-              border: '#eaeaea',
-              light: '#fafafa',
-              white: '#ffffff'
-            }
           }
         }
       }
-    }
+    };
   </script>
 
   <style>
-    /* Clean Editorial Scrollbar */
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: #ffffff; }
-    ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #a3a3a3; }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0c0a09; }
+    ::-webkit-scrollbar-thumb { background: #292524; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #44403c; }
 
-    /* Modal Backdrop */
+    /* Dialog backdrop */
     dialog::backdrop {
-      background: rgba(17, 17, 17, 0.94);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(4, 4, 4, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
-    /* Minimalist Equalizer Animation */
-    @keyframes fernandesEq {
+    /* Equalizer Wave Animation */
+    @keyframes eqWave {
       0%, 100% { height: 3px; }
-      50% { height: 13px; }
+      50% { height: 14px; }
     }
     .eq-bar-active {
-      animation: fernandesEq 0.9s ease-in-out infinite;
+      animation: eqWave 1.1s ease-in-out infinite;
     }
-    .eq-bar-active:nth-child(2) { animation-delay: 0.15s; }
-    .eq-bar-active:nth-child(3) { animation-delay: 0.35s; }
+    .eq-bar-active:nth-child(2) { animation-delay: 0.2s; }
+    .eq-bar-active:nth-child(3) { animation-delay: 0.4s; }
 
-    /* Smooth Image Hover Effect without Drop Shadows */
-    .fernandes-card-img {
-      transition: transform 300ms cubic-bezier(0.25, 0.1, 0.25, 1), opacity 300ms ease;
-    }
-    .fernandes-card:hover .fernandes-card-img {
-      transform: scale(1.015);
-      opacity: 0.92;
-    }
-
-    /* Mobile touch-callout & user-select optimizations */
+    /* Touch optimizations */
     .no-tap-highlight {
       -webkit-tap-highlight-color: transparent;
     }
   </style>
 </head>
-<body class="bg-white text-brand-black min-h-screen font-sans selection:bg-brand-black selection:text-white antialiased no-tap-highlight">
+<body class="bg-stone-950 text-stone-100 min-h-screen font-sans selection:bg-amber-900/50 selection:text-amber-100 antialiased no-tap-highlight">
 
-  <!-- 1. Global Navigation Bar -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-brand-border transition-colors">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 h-16 sm:h-20 flex items-center justify-between">
+  <!-- Global Sticky Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-stone-950/90 backdrop-blur-md border-b border-stone-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Left: Brand Wordmark -->
-      <div class="flex items-center space-x-6 lg:space-x-12">
-        <a href="#" class="font-sans font-extrabold text-lg sm:text-2xl tracking-tight text-brand-black uppercase hover:opacity-80 transition flex items-center">
-          FERNANDES <span class="text-brand-muted font-normal text-xs sm:text-base ml-1.5 sm:ml-2 tracking-normal">/ AZORES</span>
+      <!-- Left: Wordmark & Dynamic Trip Badge -->
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <a href="?trip=Azores%20PT" class="font-extrabold text-lg sm:text-xl tracking-tight uppercase text-white hover:text-amber-300 transition">
+          FERNANDES
         </a>
-
-        <!-- Desktop Navigation Links -->
-        <nav class="hidden md:flex items-center space-x-8 text-[14px] font-medium text-brand-muted">
-          <a href="#work" class="text-brand-black transition hover:text-brand-black">Work</a>
-          <button id="nav-journal-btn" class="transition hover:text-brand-black">Journal</button>
-          <button id="nav-about-btn" class="transition hover:text-brand-black">About</button>
-          <button id="nav-contact-btn" class="transition hover:text-brand-black">Contact</button>
+        <span class="text-stone-700">•</span>
+        <!-- Trip Switcher Pills -->
+        <nav class="flex items-center space-x-1.5 text-xs font-mono">
+          <a id="pill-azores" href="?trip=Azores%20PT" class="px-2.5 py-1 rounded-full border border-stone-800 hover:border-stone-600 transition text-stone-400 hover:text-white">
+            Azores
+          </a>
+          <a id="pill-barcelona" href="?trip=Barcelona" class="px-2.5 py-1 rounded-full border border-stone-800 hover:border-stone-600 transition text-stone-400 hover:text-white">
+            Barcelona
+          </a>
         </nav>
       </div>
 
-      <!-- Right: Controls & Social Links -->
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        
-        <!-- Soundtrack Audio Pill (Always Accessible) -->
-        <button id="soundtrack-btn" class="flex items-center space-x-1.5 sm:space-x-2 text-xs sm:text-[13px] font-medium py-1.5 px-3 sm:px-3.5 rounded-full border border-neutral-200 hover:border-brand-black bg-brand-light text-brand-black transition duration-200" title="Toggle Azores Soundtrack">
+      <!-- Right: Action Controls -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Soundtrack Pill -->
+        <button id="soundtrack-btn" class="flex items-center space-x-2 text-xs font-medium py-1.5 px-3 rounded-full border border-stone-800 hover:border-amber-400/60 bg-stone-900/80 text-stone-300 hover:text-white transition" title="Toggle Soundtrack">
           <div id="soundtrack-bars" class="flex items-end space-x-0.5 h-3.5 w-3.5">
-            <span class="w-[2px] bg-brand-black rounded-full h-1"></span>
-            <span class="w-[2px] bg-brand-black rounded-full h-2.5"></span>
-            <span class="w-[2px] bg-brand-black rounded-full h-1.5"></span>
+            <span class="w-[2px] bg-amber-400 rounded-full h-1"></span>
+            <span class="w-[2px] bg-amber-400 rounded-full h-2.5"></span>
+            <span class="w-[2px] bg-amber-400 rounded-full h-1.5"></span>
           </div>
           <span id="soundtrack-label" class="hidden xs:inline">Soundtrack</span>
         </button>
 
-        <!-- Slideshow Trigger (Desktop / Tablet) -->
-        <button id="header-slideshow-btn" class="hidden sm:flex items-center space-x-1.5 text-[13px] font-medium py-1.5 px-3.5 rounded-full bg-brand-black text-white hover:bg-neutral-800 transition duration-200">
+        <!-- Slideshow Trigger -->
+        <button id="header-slideshow-btn" class="flex items-center space-x-1.5 text-xs font-semibold py-1.5 px-3.5 rounded-full bg-white text-stone-950 hover:bg-amber-300 transition shadow-sm">
           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          <span>Slideshow</span>
+          <span class="hidden sm:inline">Slideshow</span>
         </button>
-
-        <!-- Social Icons (Desktop) -->
-        <div class="hidden lg:flex items-center space-x-3 pl-3 border-l border-brand-border text-brand-black">
-          <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram" class="p-1.5 text-brand-muted hover:text-brand-black transition">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X / Twitter" class="p-1.5 text-brand-muted hover:text-brand-black transition">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </a>
-          <a href="mailto:info@fernandes.studio" aria-label="Email" class="p-1.5 text-brand-muted hover:text-brand-black transition">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l9.518 7.714 9.518-7.714v11.817h-19.036z"/></svg>
-          </a>
-        </div>
-
-        <!-- Mobile Drawer Hamburger Button (Minimum 44x44px touch target) -->
-        <button id="mobile-menu-open-btn" class="md:hidden p-2.5 -mr-1 text-brand-black hover:text-brand-muted transition focus:outline-none" aria-label="Open navigation menu">
-          <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-
       </div>
+
     </div>
   </header>
 
-  <!-- Mobile Slide-Out Drawer Overlay -->
-  <div id="mobile-drawer" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
-    <div id="mobile-drawer-panel" class="absolute top-0 right-0 w-[85%] max-w-sm h-full bg-white p-6 sm:p-8 flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-out shadow-2xl">
-      <div>
-        <div class="flex items-center justify-between pb-6 border-b border-brand-border">
-          <span class="font-extrabold text-xl tracking-tight text-brand-black uppercase">FERNANDES</span>
-          <button id="mobile-menu-close-btn" class="p-2 text-brand-black hover:text-brand-muted transition" aria-label="Close menu">
-            <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
-        </div>
-        
-        <nav class="flex flex-col space-y-5 pt-8 text-lg font-medium text-brand-black">
-          <a href="#work" class="mobile-nav-link flex items-center justify-between hover:text-brand-muted transition">
-            <span>Work</span>
-            <span class="text-xs font-mono text-brand-muted">81 Frames</span>
-          </a>
-          <button id="mobile-drawer-slideshow-btn" class="mobile-nav-link text-left flex items-center justify-between hover:text-brand-muted transition">
-            <span>Slideshow</span>
-            <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-light border border-brand-border">Auto-Play</span>
-          </button>
-          <button class="mobile-nav-link text-left hover:text-brand-muted transition" data-target="journal-modal">Journal</button>
-          <button class="mobile-nav-link text-left hover:text-brand-muted transition" data-target="about-modal">About</button>
-          <button class="mobile-nav-link text-left hover:text-brand-muted transition" data-target="contact-modal">Contact</button>
-        </nav>
-      </div>
-
-      <div class="pt-6 border-t border-brand-border text-xs text-brand-muted space-y-3">
-        <div class="flex items-center justify-between">
-          <span class="font-mono uppercase tracking-wider text-[11px]">Soundtrack</span>
-          <span id="mobile-soundtrack-status" class="font-mono text-brand-black font-semibold">Active</span>
-        </div>
-        <p class="font-mono text-[11px] text-brand-muted">São Miguel • Azores Autonomous Region</p>
-      </div>
+  <!-- Editorial Hero Section -->
+  <header class="max-w-5xl mx-auto px-4 pt-12 pb-8 sm:pt-20 sm:pb-12 text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-stone-800 bg-stone-900/60 text-[11px] font-mono tracking-widest uppercase text-amber-400/90 mb-4">
+      <span>Travel Photography</span>
+      <span class="text-stone-600">/</span>
+      <span>Expedition Archive</span>
     </div>
-  </div>
 
-  <!-- 2. Editorial Header & Hero Section -->
-  <section class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 pt-8 pb-8 sm:pt-16 sm:pb-14" id="work">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 sm:pb-8 border-b border-brand-border">
-      
-      <div class="max-w-3xl">
-        <span class="text-[11px] sm:text-[12px] font-semibold tracking-widest uppercase text-brand-muted block mb-2 sm:mb-3 font-mono">
-          Visual Archive • Azores, Portugal
-        </span>
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-black uppercase leading-none font-sans">
-          The Atlantic Expedition
-        </h1>
-        <p class="text-sm sm:text-[16px] text-brand-muted mt-3 sm:mt-4 font-normal leading-relaxed max-w-2xl">
-          An editorial portfolio of 81 photographs capturing the dramatic volcanic landscapes, emerald crater calderas, and restless Atlantic coastlines across São Miguel.
-        </p>
-      </div>
+    <!-- Dynamic <h1> Header Text set via decodeURIComponent(tripSlug) -->
+    <h1 id="trip-title" class="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white mb-4">
+      Azores, Portugal
+    </h1>
 
-      <!-- Metadata & Filter Info -->
-      <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-mono text-brand-muted">
-        <span class="px-2.5 sm:px-3 py-1 rounded-full bg-brand-light border border-brand-border text-brand-black font-semibold">
-          81 Photographs
-        </span>
-        <span class="hidden sm:inline">•</span>
-        <span>37°44′N 25°40′W</span>
-        <span class="hidden sm:inline">•</span>
-        <span>Fujifilm X Series</span>
-      </div>
+    <p id="trip-count" class="text-stone-400 text-xs sm:text-sm tracking-wider uppercase font-mono max-w-xl mx-auto">
+      Tap any photo to view full screen
+    </p>
+  </header>
 
-    </div>
-  </section>
-
-  <!-- 3. Editorial Fluid Masonry Photo Grid -->
-  <main class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 pb-24 sm:pb-32">
-    <!-- 3 columns on desktop, 2 on tablet, 1 on mobile, strict uniform gaps -->
-    <div id="masonry-grid" class="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-5 lg:gap-6 space-y-4 sm:space-y-5 lg:space-y-6">
-      <!-- Dynamically Populated by JavaScript -->
+  <!-- Gallery Grid -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+    <div id="gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+      <!-- Photos injected dynamically via script -->
     </div>
   </main>
 
-  <!-- 4. Global Minimal Footer -->
-  <footer class="border-t border-brand-border py-12 sm:py-16 bg-white">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-16 flex flex-col md:flex-row items-center justify-between gap-6 text-xs sm:text-[13px] text-brand-muted text-center md:text-left">
-      <div class="flex items-center space-x-3">
-        <span class="font-extrabold text-brand-black uppercase tracking-tight text-base">FERNANDES</span>
-        <span>/</span>
-        <span>Photographic Archive</span>
-      </div>
-      <div>
-        Captured on location in São Miguel and the Autonomous Region of the Azores, Portugal.
-      </div>
-      <div class="flex items-center space-x-6">
-        <button id="footer-journal-btn" class="hover:text-brand-black transition">Journal</button>
-        <button id="footer-about-btn" class="hover:text-brand-black transition">About</button>
-        <button id="footer-contact-btn" class="hover:text-brand-black transition">Contact</button>
-      </div>
-    </div>
+  <!-- Footer -->
+  <footer class="border-t border-stone-900 bg-stone-950 py-12 text-center text-xs text-stone-500 font-mono">
+    <p class="uppercase tracking-widest text-stone-400 mb-1">FERNANDES PHOTOGRAPHY</p>
+    <p>High-resolution travel visual chronicles.</p>
   </footer>
 
-  <!-- 5. Full-Bleed Lightbox Modal (<dialog closedby="any">) -->
-  <dialog id="lightbox-modal" closedby="any" class="m-0 p-0 max-w-none max-h-none w-screen h-screen bg-transparent border-0 outline-none text-white z-50">
-    <div class="relative w-full h-full flex flex-col justify-between p-3 sm:p-6 lg:p-8 select-none bg-neutral-950/98 backdrop-blur-2xl">
+  <!-- Fullscreen Lightbox Modal (<dialog closedby="any">) -->
+  <dialog id="lightbox-modal" closedby="any" class="m-0 p-0 max-w-none max-h-none w-screen h-screen bg-transparent border-0 outline-none text-stone-100 z-50">
+    <div class="relative w-full h-full flex flex-col justify-between p-3 sm:p-6 select-none bg-stone-950/98 backdrop-blur-xl">
 
-      <!-- Modal Top Bar -->
-      <div class="relative z-30 flex items-center justify-between pb-2 sm:pb-3 border-b border-white/10">
-        <!-- Frame Counter & Title -->
-        <div class="flex items-center space-x-3 sm:space-x-4">
-          <span id="lb-counter" class="text-xs font-mono tracking-widest text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded bg-white/10">
+      <!-- Modal Top Header -->
+      <div class="relative z-30 flex items-center justify-between pb-2 border-b border-stone-800">
+        <!-- Photo Counter & Filename -->
+        <div class="flex items-center space-x-3">
+          <span id="lb-counter" class="text-xs font-mono tracking-wider px-2.5 py-1 rounded-md bg-stone-900 border border-stone-800 text-amber-300">
             01 / 81
           </span>
-          <span id="lb-title" class="text-xs font-mono uppercase tracking-wider text-neutral-400 truncate max-w-[130px] sm:max-w-xs">
+          <span id="lb-filename" class="text-xs font-mono text-stone-400 truncate max-w-[140px] sm:max-w-xs">
             1-DSCF1928.jpg
           </span>
         </div>
 
-        <!-- Slideshow Progress & Status -->
-        <div id="lb-slideshow-indicator" class="hidden md:flex items-center space-x-2 text-xs font-mono uppercase tracking-wider text-neutral-300 opacity-0 transition-opacity">
-          <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-          <span>Slideshow</span>
-        </div>
-
-        <!-- Controls: Slideshow + Close -->
-        <div class="flex items-center space-x-2 sm:space-x-3">
-          <button id="lb-slideshow-toggle" class="flex items-center space-x-1.5 text-xs font-medium py-1.5 px-3 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/15 text-white transition">
-            <svg id="lb-slideshow-icon" class="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <!-- Slideshow Controls & Close Button -->
+        <div class="flex items-center space-x-2">
+          <button id="lb-slideshow-toggle" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-800 text-xs font-medium uppercase tracking-wider text-stone-300 hover:text-white transition">
+            <svg id="lb-slideshow-icon" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             <span id="lb-slideshow-label" class="hidden sm:inline">Slideshow</span>
           </button>
-          
-          <button id="lb-close-btn" class="p-2 sm:p-2 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/15 text-neutral-300 hover:text-white transition" title="Close (Esc)">
+
+          <button id="lb-close-btn" class="p-2 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-800 text-stone-400 hover:text-white transition" title="Close (Esc)">
             <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
       </div>
 
       <!-- Linear Countdown Track for Slideshow -->
-      <div id="lb-progress-track" class="w-full h-[2px] bg-white/10 opacity-0 transition-opacity">
-        <div id="lb-progress-bar" class="h-full bg-white w-0"></div>
+      <div id="lb-progress-track" class="w-full h-[2px] bg-stone-900 opacity-0 transition-opacity">
+        <div id="lb-progress-bar" class="h-full bg-amber-400 w-0"></div>
       </div>
 
-      <!-- Central Full-Bleed Viewing Stage (Zero Stacking Guaranteed) -->
+      <!-- Center Image Viewing Stage (Zero Stacking Guaranteed) -->
       <div id="lb-stage" class="relative flex-1 flex items-center justify-center min-h-0 w-full overflow-hidden my-auto cursor-pointer" title="Click photo to advance">
         
         <!-- Loading Spinner -->
         <div id="lb-spinner" class="absolute z-10 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-150">
-          <div class="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+          <div class="w-9 h-9 border-2 border-stone-700 border-t-amber-400 rounded-full animate-spin"></div>
         </div>
 
         <!-- Previous Button -->
-        <button id="lb-prev-btn" aria-label="Previous photograph" class="absolute left-1 sm:left-6 z-20 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 text-neutral-200 hover:text-white transition duration-200 hover:scale-110 active:scale-95 shadow-xl backdrop-blur-md">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        <button id="lb-prev-btn" aria-label="Previous photograph" class="absolute left-2 sm:left-6 z-20 p-3 rounded-full bg-black/60 hover:bg-black/90 border border-stone-800 text-stone-300 hover:text-white transition duration-200 hover:scale-110 active:scale-95 shadow-xl backdrop-blur-md">
+          <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
 
-        <!-- Active Photograph Container -->
-        <div class="relative flex items-center justify-center max-w-full max-h-full p-1 sm:p-2 select-none">
-          <img id="lb-image" src="" alt="Enlarged view" class="max-h-[72vh] sm:max-h-[78vh] max-w-[95vw] sm:max-w-[92vw] object-contain rounded-sm transition-all duration-200 opacity-0 scale-[0.99]" />
+        <!-- Active Enlarged Photo Frame -->
+        <div class="relative flex items-center justify-center max-w-full max-h-full p-2 select-none">
+          <img id="lb-image" src="" alt="Enlarged view" class="max-h-[75vh] sm:max-h-[82vh] max-w-[94vw] object-contain rounded shadow-2xl transition-all duration-200 opacity-0 scale-[0.99]" />
         </div>
 
         <!-- Next Button -->
-        <button id="lb-next-btn" aria-label="Next photograph" class="absolute right-1 sm:right-6 z-20 p-2.5 sm:p-3.5 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 text-neutral-200 hover:text-white transition duration-200 hover:scale-110 active:scale-95 shadow-xl backdrop-blur-md">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <button id="lb-next-btn" aria-label="Next photograph" class="absolute right-2 sm:right-6 z-20 p-3 rounded-full bg-black/60 hover:bg-black/90 border border-stone-800 text-stone-300 hover:text-white transition duration-200 hover:scale-110 active:scale-95 shadow-xl backdrop-blur-md">
+          <svg class="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
 
       </div>
 
-      <!-- Bottom Metadata & Technical Capture Details -->
-      <div class="relative z-30 pt-2 sm:pt-3 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] sm:text-xs text-neutral-400 font-mono gap-1.5 sm:gap-2">
-        <div class="flex items-center space-x-2 sm:space-x-3">
-          <span class="text-white font-medium">São Miguel, Azores</span>
-          <span>•</span>
-          <span id="lb-meta-camera">Fujifilm X Series</span>
-        </div>
-        <div class="text-[10px] sm:text-[11px] text-neutral-500">
-          Swipe on mobile • Tap photo to advance
-        </div>
+      <!-- Bottom Hint Bar -->
+      <div class="relative z-30 pt-2 border-t border-stone-800 text-center text-[11px] text-stone-500 font-mono">
+        <span class="hidden sm:inline">Use Arrow Keys ← → to navigate • Press Space for Slideshow • </span>Click photo to advance • Swipe on mobile
       </div>
 
     </div>
   </dialog>
 
-  <!-- 6. Editorial Informational Modals (Journal, About, Contact) -->
-  
-  <!-- Journal Modal -->
-  <dialog id="journal-modal" closedby="any" class="m-auto p-0 max-w-2xl w-[92vw] rounded-xl bg-white border border-brand-border text-brand-black z-50 shadow-2xl">
-    <div class="p-6 sm:p-10">
-      <div class="flex items-center justify-between pb-4 sm:pb-6 border-b border-brand-border">
-        <div>
-          <span class="text-xs font-mono uppercase tracking-widest text-brand-muted">Field Notes</span>
-          <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight uppercase mt-1">Azores Expedition Journal</h2>
-        </div>
-        <button class="modal-close-trigger p-2 text-brand-muted hover:text-brand-black text-2xl leading-none">&times;</button>
-      </div>
-      <div class="py-5 sm:py-6 space-y-3 sm:space-y-4 text-xs sm:text-sm text-brand-muted leading-relaxed">
-        <p>
-          Positioned 1,400 kilometers west of Lisbon in the middle of the North Atlantic Ocean, the Azores archipelago is characterized by dramatic stratovolcanoes, thermal steam fissures, and lush endemism nurtured by continuous ocean mist.
-        </p>
-        <p>
-          This photographic archive focuses primarily on São Miguel—the largest island—documenting the twin crater lakes of Sete Cidades, the boiling geothermal springs of Furnas, and the rugged Atlantic cliffheads where basalt black lava meets the ocean swell.
-        </p>
-        <p class="font-mono text-[11px] sm:text-xs text-brand-black pt-2">
-          Equipment: Fujifilm X-T5, XF 23mm f/2 R WR, XF 33mm f/1.4 R LM WR, and iPhone 15 Pro.
-        </p>
-      </div>
-    </div>
-  </dialog>
-
-  <!-- About Modal -->
-  <dialog id="about-modal" closedby="any" class="m-auto p-0 max-w-xl w-[92vw] rounded-xl bg-white border border-brand-border text-brand-black z-50 shadow-2xl">
-    <div class="p-6 sm:p-10">
-      <div class="flex items-center justify-between pb-4 sm:pb-6 border-b border-brand-border">
-        <div>
-          <span class="text-xs font-mono uppercase tracking-widest text-brand-muted">Studio Profile</span>
-          <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight uppercase mt-1">About the Project</h2>
-        </div>
-        <button class="modal-close-trigger p-2 text-brand-muted hover:text-brand-black text-2xl leading-none">&times;</button>
-      </div>
-      <div class="py-5 sm:py-6 space-y-3 sm:space-y-4 text-xs sm:text-sm text-brand-muted leading-relaxed">
-        <p>
-          <strong class="text-brand-black font-semibold">FERNANDES</strong> is an editorial photography and visual design studio exploring topography, geography, and architecture.
-        </p>
-        <p>
-          Each portfolio focuses on raw environmental honesty—prioritizing natural light, unembellished textures, and organic architectural cadence.
-        </p>
-        <div class="pt-4 border-t border-brand-border text-[11px] sm:text-xs font-mono space-y-1">
-          <p><span class="text-brand-black font-semibold">Location:</span> Ponta Delgada & Lisbon</p>
-          <p><span class="text-brand-black font-semibold">Focus:</span> Landscape, Documentary, Fine Art Prints</p>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
-  <!-- Contact Modal -->
-  <dialog id="contact-modal" closedby="any" class="m-auto p-0 max-w-lg w-[92vw] rounded-xl bg-white border border-brand-border text-brand-black z-50 shadow-2xl">
-    <div class="p-6 sm:p-10">
-      <div class="flex items-center justify-between pb-4 sm:pb-6 border-b border-brand-border">
-        <div>
-          <span class="text-xs font-mono uppercase tracking-widest text-brand-muted">Inquiries</span>
-          <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight uppercase mt-1">Get in Touch</h2>
-        </div>
-        <button class="modal-close-trigger p-2 text-brand-muted hover:text-brand-black text-2xl leading-none">&times;</button>
-      </div>
-      <div class="py-5 sm:py-6 space-y-4 text-xs sm:text-sm text-brand-muted">
-        <p class="leading-relaxed">
-          For print commissions, editorial licensing, or exhibition inquiries, contact the studio directly:
-        </p>
-        <div class="p-4 rounded-lg bg-brand-light border border-brand-border font-mono text-[11px] sm:text-xs text-brand-black space-y-2">
-          <p>Email: <a href="mailto:info@fernandes.studio" class="underline hover:text-brand-muted">info@fernandes.studio</a></p>
-          <p>Instagram: <a href="https://instagram.com" target="_blank" class="underline hover:text-brand-muted">@fernandes.studio</a></p>
-        </div>
-      </div>
-    </div>
-  </dialog>
-
-  <!-- HTML5 Audio Element connected directly to uploaded soundtrack.mp3 -->
+  <!-- HTML5 Background Audio -->
   <audio id="soundtrack-audio" src="soundtrack.mp3" preload="auto" loop></audio>
 
-  <!-- 7. Application Logic -->
+  <!-- Application Logic -->
   <script>
     // -------------------------------------------------------------
-    // Configuration & Data
+    // Configuration & Photo Registry
     // -------------------------------------------------------------
     const R2_BUCKET_URL = "https://pub-fc0bf7fe0db244c695384fd77eeac1ca.r2.dev";
 
-    // Read trip from ?trip= param, default to Azores PT
-    const urlParams = new URLSearchParams(window.location.search);
-    const tripSlug = urlParams.get('trip') || 'Azores PT';
-
-    // Photo Registry (Azores PT)
+    // Trip photo registry
     const tripRegistry = {
       "Azores PT": [
         "1-DSCF1928.jpg",
@@ -482,17 +295,43 @@
         "79-DSCF2170.jpg",
         "80-DSCF2172.jpg",
         "81-DSCF2179.jpg"
+      ],
+      "Barcelona": [
+        "6-DSCF3813.jpg",
+        "7-DSCF3824.jpg",
+        "8-DSCF3826.jpg",
+        "9-DSCF3827.jpg",
+        "55-IMG_2470.jpg",
+        "56-IMG_2481.jpg",
+        "57-IMG_2490.jpg"
       ]
     };
 
-    const photos = tripRegistry[tripSlug] || [];
-    const masonryGrid = document.getElementById('masonry-grid');
+    // Robust dynamic trip routing from ?trip= URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const tripSlug = urlParams.get('trip') || 'Azores PT';
+
+    // Format title dynamically
+    const formattedTitle = decodeURIComponent(tripSlug);
+    document.getElementById('trip-title').textContent = formattedTitle;
+    document.title = `${formattedTitle} — Travel Photography`;
+
+    // Highlight active switcher pill
+    if (tripSlug.toLowerCase().includes('barcelona')) {
+      document.getElementById('pill-barcelona').classList.add('border-amber-400', 'text-amber-300', 'bg-amber-950/30');
+    } else {
+      document.getElementById('pill-azores').classList.add('border-amber-400', 'text-amber-300', 'bg-amber-950/30');
+    }
+
+    const photos = tripRegistry[tripSlug] || tripRegistry["Azores PT"];
+    const galleryEl = document.getElementById('gallery');
+    document.getElementById('trip-count').textContent = `${photos.length} curated photographs • Tap any photo to view full screen`;
 
     // State Variables
     let currentIndex = 0;
-    let isSlideshowActive = false;
+    let isSlideshow = false;
     let slideshowTimer = null;
-    let requestSeqId = 0;
+    let activeRequestSeq = 0;
     const SLIDESHOW_INTERVAL_MS = 3800;
 
     // Lightbox Elements
@@ -500,37 +339,32 @@
     const lbImage = document.getElementById('lb-image');
     const lbSpinner = document.getElementById('lb-spinner');
     const lbCounter = document.getElementById('lb-counter');
-    const lbTitle = document.getElementById('lb-title');
-    const lbMetaCamera = document.getElementById('lb-meta-camera');
+    const lbFilename = document.getElementById('lb-filename');
     const lbStage = document.getElementById('lb-stage');
     const lbProgressTrack = document.getElementById('lb-progress-track');
     const lbProgressBar = document.getElementById('lb-progress-bar');
-    const lbSlideshowIndicator = document.getElementById('lb-slideshow-indicator');
     const lbSlideshowToggle = document.getElementById('lb-slideshow-toggle');
     const lbSlideshowLabel = document.getElementById('lb-slideshow-label');
     const lbSlideshowIcon = document.getElementById('lb-slideshow-icon');
 
     // -------------------------------------------------------------
-    // Build Fluid Masonry Grid
+    // Populate Gallery Grid
     // -------------------------------------------------------------
     photos.forEach((fileName, index) => {
+      // Dynamic R2 Bucket URL
       const fullUrl = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(fileName)}`;
 
-      // Article Card matching Fernandes editorial specifications
-      const card = document.createElement('article');
-      card.className = "fernandes-card group relative break-inside-avoid overflow-hidden bg-brand-light cursor-pointer mb-4 sm:mb-5 lg:mb-6";
+      const card = document.createElement('div');
+      card.className = "group relative aspect-square overflow-hidden rounded-lg bg-stone-900 border border-stone-800/80 cursor-pointer shadow hover:border-stone-600 transition focus:outline-none focus:ring-2 focus:ring-amber-400";
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', `View photograph ${index + 1} of ${photos.length}: ${fileName}`);
-
-      const imgWrapper = document.createElement('div');
-      imgWrapper.className = "overflow-hidden bg-neutral-100";
+      card.setAttribute('aria-label', `View ${fileName}`);
 
       const img = document.createElement('img');
       img.src = fullUrl;
-      img.alt = `Azores archive frame ${fileName}`;
-      img.className = "fernandes-card-img w-full h-auto object-cover block";
-      
+      img.alt = fileName;
+      img.className = "w-full h-full object-cover transition duration-300 hover:scale-105 block";
+
       // Modern Web Guidance: Optimize image priority
       if (index === 0) {
         img.setAttribute('fetchpriority', 'high');
@@ -538,27 +372,8 @@
         img.loading = "lazy";
       }
 
-      imgWrapper.appendChild(img);
+      card.appendChild(img);
 
-      // Editorial Caption Bar
-      const captionBar = document.createElement('div');
-      captionBar.className = "py-2 sm:py-2.5 flex items-baseline justify-between text-xs text-brand-muted border-b border-brand-border";
-      
-      const indexTag = document.createElement('span');
-      indexTag.className = "font-semibold text-brand-black font-mono";
-      indexTag.textContent = `#${String(index + 1).padStart(2, '0')}`;
-
-      const metaTag = document.createElement('span');
-      metaTag.className = "font-mono text-[11px] text-brand-muted truncate max-w-[150px]";
-      metaTag.textContent = fileName.replace('.jpg', '');
-
-      captionBar.appendChild(indexTag);
-      captionBar.appendChild(metaTag);
-
-      card.appendChild(imgWrapper);
-      card.appendChild(captionBar);
-
-      // Event Listeners
       card.addEventListener('click', () => openLightbox(index));
       card.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -567,7 +382,7 @@
         }
       });
 
-      masonryGrid.appendChild(card);
+      galleryEl.appendChild(card);
     });
 
     // -------------------------------------------------------------
@@ -594,42 +409,40 @@
       const fileName = photos[currentIndex];
       const fullUrl = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(fileName)}`;
 
-      // 1. Instantly hide the outgoing image so it completely disappears (ZERO STACKING)
+      // Instantly hide the previous image so it vanishes completely (ZERO STACKING)
       lbImage.classList.remove('opacity-100', 'scale-100');
       lbImage.classList.add('opacity-0', 'scale-[0.99]');
 
       // Show loader spinner
       lbSpinner.classList.remove('opacity-0');
 
-      // Update headers & counters
+      // Update header details
       lbCounter.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
-      lbTitle.textContent = fileName;
-      lbMetaCamera.textContent = fileName.startsWith('DSCF') ? 'Fujifilm X-T5' : 'Apple Raw';
+      lbFilename.textContent = fileName;
 
-      // Incremental Request ID to prevent race conditions during rapid navigation
-      const currentReq = ++requestSeqId;
+      // Track request sequence to prevent race conditions during rapid navigation
+      const currentSeq = ++activeRequestSeq;
 
-      // 2. Preload new image off-screen
-      const preloader = new Image();
-      preloader.src = fullUrl;
-      preloader.onload = () => {
-        if (currentReq !== requestSeqId) return; // Stale request, ignore
+      // Preload new image off-screen before displaying
+      const offscreenImg = new Image();
+      offscreenImg.src = fullUrl;
+      offscreenImg.onload = () => {
+        if (currentSeq !== activeRequestSeq) return; // Stale request, ignore
 
         lbImage.src = fullUrl;
-        lbImage.alt = `Azores photograph ${fileName}`;
+        lbImage.alt = fileName;
         lbSpinner.classList.add('opacity-0');
 
-        // Reveal new image cleanly
         lbImage.classList.remove('opacity-0', 'scale-[0.99]');
         lbImage.classList.add('opacity-100', 'scale-100');
 
         // Preload next image in sequence
         const nextIdx = (currentIndex + 1) % photos.length;
-        const nextImg = new Image();
-        nextImg.src = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(photos[nextIdx])}`;
+        const nextPreload = new Image();
+        nextPreload.src = `${R2_BUCKET_URL}/${encodeURIComponent(tripSlug)}/${encodeURIComponent(photos[nextIdx])}`;
       };
 
-      if (isSlideshowActive) {
+      if (isSlideshow) {
         resetSlideshowTimer();
       }
     }
@@ -642,7 +455,7 @@
       displayPhoto(currentIndex - 1);
     }
 
-    // Advance by clicking anywhere on the stage or photo
+    // Advance by clicking directly on the photo stage
     lbStage.addEventListener('click', (e) => {
       if (e.target.closest('#lb-prev-btn') || e.target.closest('#lb-next-btn')) return;
       nextPhoto();
@@ -664,28 +477,26 @@
     // Slideshow System
     // -------------------------------------------------------------
     function startSlideshow() {
-      isSlideshowActive = true;
+      isSlideshow = true;
       lbSlideshowLabel.textContent = "Pause";
       lbSlideshowIcon.innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
       lbProgressTrack.classList.remove('opacity-0');
-      lbSlideshowIndicator.classList.remove('opacity-0');
       resetSlideshowTimer();
     }
 
     function stopSlideshow() {
-      isSlideshowActive = false;
+      isSlideshow = false;
       if (slideshowTimer) clearTimeout(slideshowTimer);
       slideshowTimer = null;
       lbSlideshowLabel.textContent = "Slideshow";
       lbSlideshowIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
       lbProgressTrack.classList.add('opacity-0');
-      lbSlideshowIndicator.classList.add('opacity-0');
       lbProgressBar.style.width = '0%';
       lbProgressBar.style.transition = 'none';
     }
 
     function toggleSlideshow() {
-      if (isSlideshowActive) {
+      if (isSlideshow) {
         stopSlideshow();
       } else {
         if (!lightboxModal.open) {
@@ -700,7 +511,7 @@
 
       lbProgressBar.style.transition = 'none';
       lbProgressBar.style.width = '0%';
-      void lbProgressBar.offsetWidth; // Trigger reflow
+      void lbProgressBar.offsetWidth; // Force layout reflow
       lbProgressBar.style.transition = `width ${SLIDESHOW_INTERVAL_MS}ms linear`;
       lbProgressBar.style.width = '100%';
 
@@ -726,19 +537,16 @@
     const soundtrackBtn = document.getElementById('soundtrack-btn');
     const soundtrackLabel = document.getElementById('soundtrack-label');
     const soundtrackBars = document.querySelectorAll('#soundtrack-bars span');
-    const mobileSoundtrackStatus = document.getElementById('mobile-soundtrack-status');
 
     function updateAudioUI(isPlaying) {
       if (isPlaying) {
         if (soundtrackLabel) soundtrackLabel.textContent = "Soundtrack: On";
-        soundtrackBtn.classList.add('border-brand-black', 'bg-neutral-100');
+        soundtrackBtn.classList.add('border-amber-400', 'text-amber-300', 'bg-amber-950/30');
         soundtrackBars.forEach(bar => bar.classList.add('eq-bar-active'));
-        if (mobileSoundtrackStatus) mobileSoundtrackStatus.textContent = "Playing";
       } else {
         if (soundtrackLabel) soundtrackLabel.textContent = "Soundtrack";
-        soundtrackBtn.classList.remove('border-brand-black', 'bg-neutral-100');
+        soundtrackBtn.classList.remove('border-amber-400', 'text-amber-300', 'bg-amber-950/30');
         soundtrackBars.forEach(bar => bar.classList.remove('eq-bar-active'));
-        if (mobileSoundtrackStatus) mobileSoundtrackStatus.textContent = "Paused";
       }
     }
 
@@ -747,7 +555,7 @@
         soundtrackAudio.play().then(() => {
           updateAudioUI(true);
         }).catch((err) => {
-          console.warn("Audio playback initiated on user action:", err);
+          console.warn("Audio playback initiated:", err);
         });
       } else {
         soundtrackAudio.pause();
@@ -757,15 +565,14 @@
 
     soundtrackBtn.addEventListener('click', toggleSoundtrack);
 
-    // Autoplay when page opens:
-    // Attempts immediate playback, with fallback to start on very first user interaction
+    // Autoplay when page opens (with smart browser policy interaction fallback)
     function initAutoplaySoundtrack() {
       const playPromise = soundtrackAudio.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
           updateAudioUI(true);
         }).catch(() => {
-          // Modern browsers require a user interaction first (click, touch, scroll)
+          // Modern browsers restrict unmuted autoplay before interaction
           const armGestureStart = () => {
             soundtrackAudio.play().then(() => {
               updateAudioUI(true);
@@ -791,7 +598,7 @@
     }
 
     // -------------------------------------------------------------
-    // Keyboard & Gestures
+    // Keyboard Shortcuts & Touch Gestures
     // -------------------------------------------------------------
     document.addEventListener('keydown', (e) => {
       if (lightboxModal.open) {
@@ -802,6 +609,8 @@
         } else if (e.key === ' ') {
           e.preventDefault();
           toggleSlideshow();
+        } else if (e.key === 'Escape') {
+          closeLightbox();
         }
       }
     });
@@ -809,23 +618,15 @@
     // Touch Swipe Support for Mobile
     let touchStartX = 0;
     let touchEndX = 0;
-    let touchStartY = 0;
-    let touchEndY = 0;
 
     lightboxModal.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
-      touchStartY = e.changedTouches[0].screenY;
     }, { passive: true });
 
     lightboxModal.addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].screenX;
-      touchEndY = e.changedTouches[0].screenY;
-      
       const deltaX = touchEndX - touchStartX;
-      const deltaY = touchEndY - touchStartY;
-
-      // Only trigger horizontal swipe if horizontal movement is greater than vertical
-      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 40) {
+      if (Math.abs(deltaX) > 40) {
         if (deltaX < 0) {
           nextPhoto();
         } else {
@@ -834,7 +635,7 @@
       }
     }, { passive: true });
 
-    // Modern Web Guidance: Light-dismiss fallback for <dialog>
+    // Modern Web Guidance: Light-dismiss fallback for <dialog> backdrop clicks
     if (!('closedBy' in HTMLDialogElement.prototype)) {
       lightboxModal.addEventListener('click', (event) => {
         if (event.target !== lightboxModal) return;
@@ -851,71 +652,6 @@
     }
 
     lightboxModal.addEventListener('close', closeLightbox);
-
-    // -------------------------------------------------------------
-    // Informational Modals & Mobile Drawer
-    // -------------------------------------------------------------
-    const journalModal = document.getElementById('journal-modal');
-    const aboutModal = document.getElementById('about-modal');
-    const contactModal = document.getElementById('contact-modal');
-    const mobileDrawer = document.getElementById('mobile-drawer');
-    const mobileDrawerPanel = document.getElementById('mobile-drawer-panel');
-
-    function openModal(dialog) {
-      if (!dialog.open) dialog.showModal();
-    }
-
-    document.getElementById('nav-journal-btn').addEventListener('click', () => openModal(journalModal));
-    document.getElementById('footer-journal-btn').addEventListener('click', () => openModal(journalModal));
-
-    document.getElementById('nav-about-btn').addEventListener('click', () => openModal(aboutModal));
-    document.getElementById('footer-about-btn').addEventListener('click', () => openModal(aboutModal));
-
-    document.getElementById('nav-contact-btn').addEventListener('click', () => openModal(contactModal));
-    document.getElementById('footer-contact-btn').addEventListener('click', () => openModal(contactModal));
-
-    document.querySelectorAll('.modal-close-trigger').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const dialog = e.target.closest('dialog');
-        if (dialog) dialog.close();
-      });
-    });
-
-    // Mobile Drawer Controls
-    function openMobileDrawer() {
-      mobileDrawer.classList.remove('opacity-0', 'pointer-events-none');
-      mobileDrawerPanel.classList.remove('translate-x-full');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeMobileDrawer() {
-      mobileDrawer.classList.add('opacity-0', 'pointer-events-none');
-      mobileDrawerPanel.classList.add('translate-x-full');
-      document.body.style.overflow = 'auto';
-    }
-
-    document.getElementById('mobile-menu-open-btn').addEventListener('click', openMobileDrawer);
-    document.getElementById('mobile-menu-close-btn').addEventListener('click', closeMobileDrawer);
-    mobileDrawer.addEventListener('click', (e) => {
-      if (e.target === mobileDrawer) closeMobileDrawer();
-    });
-
-    document.getElementById('mobile-drawer-slideshow-btn').addEventListener('click', () => {
-      closeMobileDrawer();
-      openLightbox(0);
-      startSlideshow();
-    });
-
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        closeMobileDrawer();
-        const target = link.getAttribute('data-target');
-        if (target) {
-          const dialog = document.getElementById(target);
-          if (dialog) openModal(dialog);
-        }
-      });
-    });
   </script>
 </body>
 </html>
